@@ -8331,14 +8331,20 @@ end;
 
 function ToURI(aRoot, aPort: string; Https: boolean;
   aDomainName: string): string;
+var bRoot,
+    bPort,
+    bDomainName: UTF8String;
 begin
-  result := UTF8ToString(
+  bRoot := UTF8Encode( aRoot );
+  bPort := UTF8Encode( aPort );
+  bDomainName := UTF8Encode( aDomainName );
+  result := //UTF8ToString(
     RegURL(
-      aRoot,
-      aPort,
+      bRoot,
+      bPort,
       Https,
-      aDomainName
-    )
+      bDomainName
+    //)
   );
 end;
 

@@ -13555,7 +13555,7 @@ type
   {$ifdef MSWINDOWS}
   THeapMemoryStream = class(TMemoryStream)
   protected
-    function Realloc(var NewCapacity: longint): Pointer; override;
+    function Realloc(var NewCapacity: NativeInt): Pointer; override;
   end;
   {$else}
   THeapMemoryStream = TMemoryStream;
@@ -16904,7 +16904,7 @@ function IntToThousandString(Value: integer; const ThousandSep: TShort4=','): sh
 
 /// return the Delphi/FPC Compiler Version
 // - returns 'Delphi 2007', 'Delphi 2010' or 'Free Pascal 3.3.1' e.g.
-function GetDelphiCompilerVersion: RawUTF8;
+//function GetDelphiCompilerVersion: RawUTF8;
 
 /// returns TRUE if the supplied mutex has been initialized
 // - will check if the supplied mutex is void (i.e. all filled with 0 bytes)
@@ -39387,7 +39387,7 @@ end;
 const
   MemoryDelta = $8000; // 32 KB granularity (must be a power of 2)
 
-function THeapMemoryStream.Realloc(var NewCapacity: longint): Pointer;
+function THeapMemoryStream.Realloc(var NewCapacity: NativeInt): Pointer;
 // allocates memory from Delphi heap (FastMM4/SynScaleMM) and not windows.Global*()
 // and uses bigger growing size -> a lot faster
 var i: PtrInt;
@@ -57680,49 +57680,49 @@ end;
 {$endif DELPHI5OROLDER}
 
 
-function GetDelphiCompilerVersion: RawUTF8;
-begin
-  result :=
-{$ifdef FPC}
-  'Free Pascal'
-  {$ifdef VER2_6_4}+' 2.6.4'{$endif}
-  {$ifdef VER3_0_0}+' 3.0.0'{$endif}
-  {$ifdef VER3_0_1}+' 3.0.1'{$endif}
-  {$ifdef VER3_0_2}+' 3.0.2'{$endif}
-  {$ifdef VER3_1_1}+' 3.1.1'{$endif}
-  {$ifdef VER3_2}  +' 3.2'  {$endif}
-  {$ifdef VER3_3_1}+' 3.3.1'{$endif}
-{$else}
-  {$ifdef VER130} 'Delphi 5'{$endif}
-  {$ifdef CONDITIONALEXPRESSIONS}  // Delphi 6 or newer
-    {$if     defined(KYLIX3)}'Kylix 3'
-    {$elseif defined(VER140)}'Delphi 6'
-    {$elseif defined(VER150)}'Delphi 7'
-    {$elseif defined(VER160)}'Delphi 8'
-    {$elseif defined(VER170)}'Delphi 2005'
-    {$elseif defined(VER185)}'Delphi 2007'
-    {$elseif defined(VER180)}'Delphi 2006'
-    {$elseif defined(VER200)}'Delphi 2009'
-    {$elseif defined(VER210)}'Delphi 2010'
-    {$elseif defined(VER220)}'Delphi XE'
-    {$elseif defined(VER230)}'Delphi XE2'
-    {$elseif defined(VER240)}'Delphi XE3'
-    {$elseif defined(VER250)}'Delphi XE4'
-    {$elseif defined(VER260)}'Delphi XE5'
-    {$elseif defined(VER265)}'AppMethod 1'
-    {$elseif defined(VER270)}'Delphi XE6'
-    {$elseif defined(VER280)}'Delphi XE7'
-    {$elseif defined(VER290)}'Delphi XE8'
-    {$elseif defined(VER300)}'Delphi 10 Seattle'
-    {$elseif defined(VER310)}'Delphi 10.1 Berlin'
-    {$elseif defined(VER320)}'Delphi 10.2 Tokyo'
-    {$elseif defined(VER330)}'Delphi 10.3 Rio'
-    {$elseif defined(VER340)}'Delphi 10.4 Next'
-    {$ifend}
-  {$endif CONDITIONALEXPRESSIONS}
-{$endif FPC}
-{$ifdef CPU64} +' 64 bit' {$else} +' 32 bit' {$endif}
-end;
+//  function GetDelphiCompilerVersion: RawUTF8;
+// begin
+//   result :=
+// {$ifdef FPC}
+//   'Free Pascal'
+//   {$ifdef VER2_6_4}+' 2.6.4'{$endif}
+//   {$ifdef VER3_0_0}+' 3.0.0'{$endif}
+//   {$ifdef VER3_0_1}+' 3.0.1'{$endif}
+//   {$ifdef VER3_0_2}+' 3.0.2'{$endif}
+//   {$ifdef VER3_1_1}+' 3.1.1'{$endif}
+//   {$ifdef VER3_2}  +' 3.2'  {$endif}
+//   {$ifdef VER3_3_1}+' 3.3.1'{$endif}
+// {$else}
+//   {$ifdef VER130} 'Delphi 5'{$endif}
+//   {$ifdef CONDITIONALEXPRESSIONS}  // Delphi 6 or newer
+//     {$if     defined(KYLIX3)}'Kylix 3'
+//     {$elseif defined(VER140)}'Delphi 6'
+//     {$elseif defined(VER150)}'Delphi 7'
+//     {$elseif defined(VER160)}'Delphi 8'
+//     {$elseif defined(VER170)}'Delphi 2005'
+//     {$elseif defined(VER185)}'Delphi 2007'
+//     {$elseif defined(VER180)}'Delphi 2006'
+//     {$elseif defined(VER200)}'Delphi 2009'
+//     {$elseif defined(VER210)}'Delphi 2010'
+//     {$elseif defined(VER220)}'Delphi XE'
+//     {$elseif defined(VER230)}'Delphi XE2'
+//     {$elseif defined(VER240)}'Delphi XE3'
+//     {$elseif defined(VER250)}'Delphi XE4'
+//     {$elseif defined(VER260)}'Delphi XE5'
+//     {$elseif defined(VER265)}'AppMethod 1'
+//     {$elseif defined(VER270)}'Delphi XE6'
+//     {$elseif defined(VER280)}'Delphi XE7'
+//     {$elseif defined(VER290)}'Delphi XE8'
+//     {$elseif defined(VER300)}'Delphi 10 Seattle'
+//     {$elseif defined(VER310)}'Delphi 10.1 Berlin'
+//     {$elseif defined(VER320)}'Delphi 10.2 Tokyo'
+//     {$elseif defined(VER330)}'Delphi 10.3 Rio'
+//     {$elseif defined(VER340)}'Delphi 10.4 Next'
+//     {$ifend}
+//   {$endif CONDITIONALEXPRESSIONS}
+// {$endif FPC}
+// {$ifdef CPU64} +' 64 bit' {$else} +' 32 bit' {$endif}
+// end;
 
 
 { TRawUTF8List }
