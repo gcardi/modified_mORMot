@@ -1906,7 +1906,11 @@ function deflate(var strm: TZStream; flush: integer): integer; external;
 function deflateEnd(var strm: TZStream): integer; external;
 
 const
+{$IFDEF WIN32}
+  z_errmsg: array[0..9] of PAnsiChar = (
+{$else}
   _z_errmsg: array[0..9] of PAnsiChar = (
+{$ENDIF}
   'need dictionary',     // Z_NEED_DICT       2
   'stream end',          // Z_STREAM_END      1
   '',                    // Z_OK              0
@@ -4959,12 +4963,20 @@ begin // direct use of the (FastMM4) delphi heap for all zip memory allocation
   FreeMem(Block);
 end;
 
+{$IFDEF WIN32}
+procedure memcpy(dest, src: Pointer; count: integer); cdecl;
+{$else}
 procedure _memcpy(dest, src: Pointer; count: integer); cdecl;
+{$ENDIF}
 begin // will use fastcode if compiled within
   Move(src^, dest^, count);
 end;
 
+{$IFDEF WIN32}
+procedure memset(dest: Pointer; val: Integer; count: integer); cdecl;
+{$else}
 procedure _memset(dest: Pointer; val: Integer; count: integer); cdecl;
+{$ENDIF}
 begin // will use fastcode if compiled within
   FillChar(dest^, count, val);
 end;
@@ -5627,6 +5639,7 @@ initialization
   InitCrc32Tab;
 {$endif USEINLINEASM}
 end.
+
 
 
 
