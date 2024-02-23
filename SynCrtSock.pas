@@ -5140,7 +5140,7 @@ begin
     BufSize := InputBufferSize;
     BufPtr := pointer(PAnsiChar(SockIn)+sizeof(TTextRec)); // ignore Buffer[] (Delphi 2009+)
     OpenFunc := @OpenSock;
-    Handle := -1;
+    Handle := High(Cardinal);;
   end;
   {$ifndef DELPHI5OROLDER}
   SetLineBreakStyle(SockIn^,LineBreak); // http does break lines with #13#10
@@ -5162,7 +5162,7 @@ begin
     BufSize := OutputBufferSize;
     BufPtr := pointer(PAnsiChar(SockIn)+sizeof(TTextRec)); // ignore Buffer[] (Delphi 2009+)
     OpenFunc := @OpenSock;
-    Handle := -1;
+    Handle := High(Cardinal);
   end;
   {$ifndef DELPHI5OROLDER}
   SetLineBreakStyle(SockOut^,tlbsCRLF); // force e.g. for Linux platforms
